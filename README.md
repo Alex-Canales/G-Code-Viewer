@@ -1,5 +1,6 @@
 # G-Code viewer
-This app displays a G-Code 3D representation in the browser.
+This app displays a G-Code 3D representation in the browser. You can give it a
+try [online](https://alex-canales.github.io/G-Code-Viewer/).
 
 ## How to implement it
 
