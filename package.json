@@ -1,0 +1,9 @@
+{
+    "description": "This is not a node module so the package is only for build",
+    "author": "Alex Canales",
+    "license": "Apache License 2.0",
+    "dependencies": {
+        "gcodetogeometry" : "1.0.x"
+    },
+    "engines": { "node": "*" }
+}

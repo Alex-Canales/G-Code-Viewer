@@ -4,8 +4,7 @@ module.exports = {
         viewer : "./js/viewer.js"
     },
     externals: {
-        "three" : "THREE",
-        "gcodetogeometry" : "gcodetogeometry"
+        "three" : "THREE"
     },
     output: {
         path: path.join(__dirname, "build"),
