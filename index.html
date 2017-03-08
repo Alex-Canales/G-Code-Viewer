@@ -2,26 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GCode viewer</title>
+    <title>G-Code viewer</title>
     <link rel="stylesheet" href="build/css/gcodeviewer.css">
+    <style type="text/css">
+        #console {
+            background-color: grey;
+            width: 100%;
+            height: 70px;
+            overflow: auto;
+            padding: 3px;
+        }
+        .content {
+            width: 100%;
+            text-align: justify;
+            line-height: 1.4;
+            font-family: serif;
+            font-size: 18px;
+            color: #333;
+        }
+
+        h1, h2, h3, h4, h5 {
+            line-height: 1.2;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* @media only screen and (min-width: 700px) { */
+            .content {
+                max-width: 1000px;
+                margin: auto;
+            }
+        /* } */
+
+        #container {
+            width: 600px;
+            height: 400px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #code-panel {
+            width: 300px;
+            display: inline-block;
+        }
+
+        #code-and-viewer {
+            width: 930px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
-    <div style="display:inline-block;">
-        <textarea id="gcode" name="" cols="30" rows="10"></textarea>
-        <button id="view">View</button>
-        <button id="resize">Resize</button>
-    </div>
+    <div class="content">
+        <h1>G-Code viewer</h1>
 
-    <div id="container" style="display: inline-block;">
+        <p>
+        It displays the path a CNC machine bit will make according to the given
+        G-Code commands. Put the G-Code commands in the textarea and click on
+        view to display the bit path in the viewer.
+        </p>
+
+        <div id="code-and-viewer">
+            <div id="code-panel">
+<textarea id="gcode" name="" style="width:95%; height: 350px;">
+(Exemple)
+G1 Z-0.333 F66.6
+G1 X2
+G1 X1 Y1.73205
+G1 X0 Y0
+G1 Z1
+G0 X0.4 Y0.57735
+G1 Z-0.333 F66.6
+G3 X1.6 R0.8 F91.1
+G3 X0.4 R0.8
+G1 Z1
+</textarea>
+                <br />
+                <button id="view">View</button>
+            </div>
+            <div id="container"></div>
+        </div>
+        <pre id="console"></pre>
     </div>
 
     <script src="build/js/gcodeviewer.js"></script>
 
     <script type="text/javascript">
-        // var config = {
-        //     initialPosition: { x: 5, y: 3, z: 1 },
-        //     board: { width: 10, length: 50, height: 5 }
-        // };
+        function displayErrors() {
+            var errorList = viewer.gcode.errorList;
+            var displayer = document.getElementById("console");
+
+            if(errorList.length === 0) {
+                displayer.innerText = "No error or warning.";
+                return;
+            }
+
+            var log = "";
+            var errorCount = 0;
+            var warningCount = 0;
+            for(var i = 0; i < errorList.length; i++) {
+                if(errorList[i].isSkipped === true) {
+                    errorCount++;
+                    log += "\nError ";
+                } else {
+                    warningCount++;
+                    log += "\nWarning ";
+                }
+                log += "at line #" + errorList[i].line + "\n";
+                log += "> " + errorList[i].message;
+            }
+
+            var completeLog = "Errors: " + errorCount;
+            completeLog += "\nWarnings: " + warningCount + "\n----";
+            completeLog += log;
+            displayer.innerText = completeLog;
+        }
+
         var container = document.getElementById("container");
         var width = 600, height = 400;
         var viewer = new gcodeviewer.Viewer(
@@ -29,21 +129,15 @@
             width,
             height,
             function(msg) { alert(msg); },
-            {
-                hideGCode : false
-            },
+            { hideGCode : false },
             false
         );
 
         document.getElementById("view").onclick = function() {
-            viewer.setGCode(document.getElementById("gcode").value);
-        }
-        document.getElementById("resize").onclick = function() {
-            var container = document.getElementById("container");
-            var width = 600, height = 300;
-            container.style.width = width + "px";
-            container.style.height = height + "px";
-            viewer.resize(width, height);
+            viewer.setGCode(
+                document.getElementById("gcode").value,
+                displayErrors
+            );
         }
     </script>
 </body>
