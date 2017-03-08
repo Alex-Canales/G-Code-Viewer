@@ -12,20 +12,23 @@ After cloning the project and going to folder: for building a **non-minimal
 version**:
 
     npm install  # Install the dependencies
-    webpack  # Generate the build as build/gcodeviewer.js
+    webpack  # Generate the build as build/js/gcodeviewer.js
 
 For building a **minimal version**:
 
     npm install  # Install the dependencies
-    webpack -p  # Generate the build as build/gcodeviewer.js
+    webpack -p  # Generate the build as build/js/gcodeviewer.js
 
 ### Implementation
 
-Both the non-minimal and minimal version can be found in the ``build`` folder.
-Include the chosen file in your HTML (example below if you chose
-``gcodeviewer.js``).
+**You need to include the JavaScript and CSS file in your project**.
+
+Both the non-minimal and minimal JavaScript version can be found in the
+``build/js`` folder.  Include the chosen file in your HTML (example below if
+you chose ``gcodeviewer.js``).
 
 ```
+<link rel="stylesheet" href="css/gcodeviewer.css">
 <script src="gcodeviewer.js"></script>
 ```
 
@@ -33,7 +36,7 @@ Example usage (in your javascript):
 
 ```javascript
 // Supposing you want the viewer to be in an HTML element (in general a div)
-// with "container" as its id.
+// with "container" as its id, and the HTML element is already loaded.
 var container = document.getElementById("container");
 var gcode = "G0 X1 Y1";  // G-Code example
 var width = 600, height = 400;

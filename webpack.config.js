@@ -4,7 +4,7 @@ module.exports = {
         viewer : "./js/viewer.js"
     },
     output: {
-        path: path.join(__dirname, "build"),
+        path: path.join(__dirname, "build/build"),
         filename: "gcodeviewer.js",
         library: "gcodeviewer",
         libraryTarget: "umd"
