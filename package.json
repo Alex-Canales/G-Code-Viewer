@@ -3,7 +3,8 @@
     "author": "Alex Canales",
     "license": "Apache License 2.0",
     "dependencies": {
-        "gcodetogeometry" : "1.0.x"
+        "gcodetogeometry" : "1.0.x",
+        "three" : "0.71.0"
     },
     "engines": { "node": "*" }
 }

@@ -5,6 +5,7 @@
  */
 
 var THREE = require("three");
+require("./helvetiker_regular.typeface");  // It has to modify THREE
 var gcodetogeometry = require("gcodetogeometry");
 var util = require("./util");
 var Path = require("./path").Path;
@@ -12,6 +13,8 @@ var TotalSize = require("./path").TotalSize;
 var Helpers = require("./helpers").Helpers;
 var Gui = require("./gui").Gui;
 var Animation = require("./animation").Animation;
+var CombinedCamera = require("./CombinedCamera").CombinedCamera;
+var OrbitControls = require("./OrbitControls").OrbitControls;
 
 /**
  * Defines the viewer class. This is the class that the user will instantiate.
@@ -133,11 +136,11 @@ exports.Viewer = function(container, widthCanvas, heightCanvas,
         var far = 1000; // Camera frustum far plane in perspective view.
         var orthoNear = -100; // Camera frustum near plane in orthographic view.
         var orthoFar = 100; // Camera frustum far plane in orthographic view.
-        that.camera = new THREE.CombinedCamera(width, height, fov, near,
+        that.camera = new CombinedCamera(width, height, fov, near,
                 far, orthoNear, orthoFar);
         that.camera.up.set(0, 0, 1);
 
-        that.controls = new THREE.OrbitControls(that.camera,
+        that.controls = new OrbitControls(that.camera,
                 that.renderer.domElement);
         that.controls.damping = 0.2;
         that.controls.addEventListener('change', render);
