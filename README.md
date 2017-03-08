@@ -1,5 +1,58 @@
 # G-Code viewer
-This app generates a 3D representation of G-Code.
+This app displays a G-Code 3D representation in the browser.
+
+## How to implement it
+
+### Building
+
+If you do not want to build it yourself, go to the implementation part. Else,
+you need ``node.js`` and ``webpack``.
+
+After cloning the project and going to folder: for building a **non-minimal
+version**:
+
+    npm install  # Install the dependencies
+    webpack  # Generate the build as build/gcodeviewer.js
+
+For building a **minimal version**:
+
+    npm install  # Install the dependencies
+    webpack -p  # Generate the build as build/gcodeviewer.js
+
+### Implementation
+
+Both the non-minimal and minimal version can be found in the ``build`` folder.
+Include the chosen file in your HTML (example below if you chose
+``gcodeviewer.js``).
+
+```
+<script src="gcodeviewer.js"></script>
+```
+
+Example usage (in your javascript):
+
+```javascript
+// Supposing you want the viewer to be in an HTML element (in general a div)
+// with "container" as its id.
+var container = document.getElementById("container");
+var gcode = "G0 X1 Y1";  // G-Code example
+var width = 600, height = 400;
+var viewer = new gcodeviewer.Viewer(
+    container,
+    width,
+    height,
+    function(msg) { alert(msg); },
+    {
+        hideGCode : false
+    },
+    false
+);
+
+viewer.setGCode(gcode);  // Display the G-Code
+```
+
+
+Read the documentation below if you want to personnalize the configuration.
 
 ## Functionalities
 The viewer can display the paths the bit will do and shows the total size of the
